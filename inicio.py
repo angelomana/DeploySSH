@@ -1,7 +1,6 @@
 import paramiko
 import time
 import os
-import sys
 import datetime as dt
 
 class Conectar():
