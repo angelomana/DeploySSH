@@ -7,13 +7,9 @@ class Conectar():
     
     def log(self,mensaje):
         hoy = dt.date.today()
-        carga = str(hoy)+".txt"
-        with open(carga, "a") as archivo:
+        carga = "f{hoy}.txt"
+        with open(carga, "a", encoding='utf-8') as archivo:
             archivo.write(mensaje+ "\n")
-    
-    def Subir(self):
-        pass
-
     
     def Comandos(self):
         direct = os.getcwd()
@@ -37,119 +33,11 @@ class Conectar():
                 password = lo[3]
                 port = lo[4]
         
-                codigo = '''#!/bin/python
-# -*- coding: utf-8 -*-
-import json
-import argparse
-import subprocess
-
-# Configuración del plugin
-PLUGIN_VERSION = 1
-HEARTBEAT = '"true"'
-METRIC_UNITS = {'"Backup status"': '"count"'}
-
-# Ruta del archivo de respaldo
-#backup_file = '"/opt/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt"'
-backup_file = '"/home/site24x7/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt"'
-
-class Plugin:
-    def __init__(self):
-        self.data = {
-            '"plugin_version"': PLUGIN_VERSION,
-            '"heartbeat_required"': HEARTBEAT,
-            '"units"': METRIC_UNITS
-        }
-
-    def getData(self):
-        try:
-            # Ejecutar el comando y guardar la salida
-            with open(backup_file, '"w"') as file:
-                subprocess.call(['"ip"', '"route"', '"show"'], stdout=file, universal_newlines=True)
-
-            # Si la ejecución fue exitosa, marcar el backup como correcto
-            self.data['"Backup status"'] = 1
-            #self.data['"Backup file"'] = backup_file
-
-        except Exception as e:
-            self.data['"status"'] = 0
-            self.data['"msg"'] = str(e)  # Mensaje de error
-            self.data['"Backup status"'] = 0  # Indicar que el respaldo falló
-
-        return self.data
-
-if __name__ == '"__main__"':
-    plugin = Plugin()
-    data = plugin.getData()
-    parser = argparse.ArgumentParser()
-    parser.add_argument('"param"', nargs='"?"', default='"dummy"')
-    args = parser.parse_args()
-    print(json.dumps(data, indent=4, sort_keys=True))  # Salida en formato JSON
-                    '''
-
+                
 
         
-        
-            ########110_opt 
-            #command = f"echo \"{codigo}\" | sudo tee /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py > /dev/null"
-            ########110_opt
-            
-            
-            ######142_opt  /opt/site24x7/monagent/plugins/
-            #command = f"echo \"{codigo}\" | sudo tee /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py > /dev/null"
-            ######142_opt
-            
-            
-            ######142_home /home/site24x7/site24x7/monagent/plugins
-            #command = f"echo \"{codigo}\" | sudo tee /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py > /dev/null"
-            ######142_home
-            
-                '''
-                sudo find / -type d -name "monagent"
-                sudo mkdir /opt/site24x7/monagent/plugins/respaldo_rutas /tmp/monitoreo
-                sudo chmod 777 /opt/site24x7/monagent/plugins/respaldo_rutas/ /tmp/monitoreo
-                sudo touch /opt/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                sudo chmod 722 /opt/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                sudo chown -R site24x7-agent:site24x7-group /opt/site24x7/monagent/plugins/respaldo_rutas
-                sudo ls -l /opt/site24x7/monagent/plugins/respaldo_rutas
-                sudo chmod 777 /opt/site24x7/monagent/plugins/respaldo_rutas /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                sudo python /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                sudo ls -la /opt/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                
-                deploy
-
-                sudo mv /tmp/monitoreo/respaldo_rutas.py /opt/site24x7/monagent/plugins/respaldo_rutas/
-                sudo chown -R site24x7-agent:site24x7-group /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                sudo python /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                
-                sudo ls -la /opt/site24x7/monagent/plugins/respaldo_rutas/
-                sudo cat /opt/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                '''
-                
-                #subir = f"echo \"{codigo}\" | tee /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py > /dev/null"
-                
-                
-                '''
-                sudo find / -type d -name "monagent"
-                sudo mkdir /home/site24x7/site24x7/monagent/plugins/respaldo_rutas /tmp/monitoreo
-                sudo chmod 777 /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/ /tmp/monitoreo
-                sudo touch /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                sudo chmod 722 /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                sudo chown -R site24x7:site24x7 /home/site24x7/site24x7/monagent/plugins/respaldo_rutas
-                
-                deploy
-                
-                sudo mv /tmp/monitoreo/respaldo_rutas.py /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/
-                sudo chown -R site24x7:site24x7 /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                sudo chmod 777 /opt/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                sudo python /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/respaldo_rutas.py
-                
-                sudo ls -l /home/site24x7/site24x7/monagent/plugins/respaldo_rutas
-                sudo ls -la /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                sudo ls -la /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/
-                sudo cat /home/site24x7/site24x7/monagent/plugins/respaldo_rutas/backup_rutas.txt
-                '''
-                
-                
+                #sudo find / -type d -name "monagent"
+                #service site24x7monagent restart
                 
                 if lo:
                     try:
@@ -159,7 +47,7 @@ if __name__ == '"__main__"':
                         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                         ssh.connect(ip, port,username=user, password=password,timeout=TIMEOUT)
                         start_time = time.time()
-                        subi = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' Conectando ...'
+                        subi = '\n'
                         print(subi)
                         self.log(subi)
                         
@@ -169,8 +57,8 @@ if __name__ == '"__main__"':
                             for ml in file:
                                 if ml.strip() == 'deploy':
                                     try:
-                                        origen = 'hola.txt'
-                                        destino = '/tmp/monitoreo/hola.txt'
+                                        origen = 'respaldo_rutas.py'
+                                        destino = '/tmp/monitoreo/respaldo_rutas.py'
                                         sftp = ssh.open_sftp()
                                         sftp.put(origen, destino)
                                         print(f"Archivo {origen} subido exitosamente a {destino}")
@@ -183,16 +71,49 @@ if __name__ == '"__main__"':
                                     finally:
                                         #ssh.close()
                                         pass
+                                else:
+
+                                    try:
+                                        stdin, stdout, stderr = ssh.exec_command(ml)
+                                        output = stdout.read().decode('utf-8')
+                                        error = stderr.read().decode('utf-8')
+                                        if time.time() - start_time > TIMEOUT:
+                                            
+                                            while not stdout.channel.exit_status_ready():
+                                                print(subi+" El comando ha tardado demasiado")
+                                                me = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+'No se ejecuto el comando, tardo la sesión\n'
+                                                self.log(me)
+                                                stdout.channel.send("\x03")
+                                                #ssh.close()
+                                            
+                                                if ssh.get_transport() and ssh.get_transport().is_active():
+                                                    m = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+'No se ejecuto el comando, cerrando la sesión\n'
+                                                    self.log(m)
+                                                    ssh.close()
+                                                break
+
+                                        if error:
+                                            print(f"Error al ejecutar el comando: {error}")
+                                        else:
+                                            print(output)
+                                            
+
+                                    except Exception as e:
+                                        print(e)
+                                    finally:
+                                        #ssh.close()
+                                        pass
+                                """
+                                else:
+                                    print('ya no revalide deploy')
                                     
-                                else:                        
-                                    stdin, stdout, stderr = ssh.exec_command(ml, bufsize =-1, timeout = None, get_pty=True,environment = None)
                                     while not stdout.channel.exit_status_ready():
                                         if time.time() - start_time > TIMEOUT:
                                             print(subi+" El comando ha tardado demasiado")
                                             me = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+'No se ejecuto el comando, tardo la sesión\n'
                                             self.log(me)
-                                            #stdout.channel.send("\x03")
-                                            ssh.close()
+                                            stdout.channel.send("\x03")
+                                            #ssh.close()
                                         
                                             if ssh.get_transport() and ssh.get_transport().is_active():
                                                 m = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+'No se ejecuto el comando, cerrando la sesión\n'
@@ -201,11 +122,14 @@ if __name__ == '"__main__"':
                                             break
                                             
                                     
-                                    st=stdout.readlines()
-                                    error = stderr.read().decode()
-
+                                    #st=stdout.readlines()
+                                    
+                                    st = stdout.read().decode('utf-8')
+                                    error = stderr.read().decode('utf-8')
+                                    
+                                    
                                     if st:
-                                        aplicado = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+str(st)
+                                        aplicado = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+str(st)+'\n'
                                         if aplicado:
                                             print(aplicado)
                                             self.log(aplicado)
@@ -219,8 +143,8 @@ if __name__ == '"__main__"':
                                         noj = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+str(command)+' '+str(error)+'\n'
                                         print(noj)
                                         self.log(noj)
-                                #else:
-                                 #   print(str(num)+'No hay comando\n')
+                                """
+                                        
                                 
                     except paramiko.AuthenticationException:
                         error1 = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+' '+'Error autenticacion ...\n'
@@ -237,16 +161,18 @@ if __name__ == '"__main__"':
                     finally:
                         transport = ssh.get_transport()
                         if transport and transport.is_active():
-                            sesion = str(num)+' '+str(tod)+' '+str(host)+' '+str(ip)+" ... Cerrando sesion\n"
+                            sesion = "Cerrando \n"
                             print(sesion)
                             self.log(sesion)
                             ssh.close()
             else:
-                calor = str(num)+'No tiene valores, o no se puede realizar la acción\n'
+                calor = str(num)+' '+str(lo)+'No tiene valores, o no se puede realizar la acción\n'
                 print(calor)
                 self.log(calor)
         except IndexError:
-            print(str(num)+' '+"La lista no tiene todos los elementos (hostname, ip, user, password, port)\n")
+            er = str(num)+' '+str(lo)+' '+"La lista no tiene todos los elementos (hostname, ip, user, password, port)\n"
+            print(er)
+            self.log(er)
     
     def Ejecutar(self):
         num = 0
@@ -269,3 +195,10 @@ if __name__ == '"__main__"':
 if __name__ == '__main__':
     iniciar = Conectar()
     iniciar.Ejecutar()
+
+    
+
+
+
+
+
